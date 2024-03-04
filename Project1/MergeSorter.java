@@ -1,33 +1,8 @@
-public class MergeSorter {
-    private int[] arr;
-    private long inversions;
-
+public class MergeSorter extends Sorter{
     
     public MergeSorter(int[] arr){
-        // Strong copy of array
-        this.arr = new int[arr.length];
-
-        for (int i=0; i<arr.length; i++){
-            this.arr[i] = arr[i];
-        }
-
-        inversions = 0;
-    }
-
-    public String toString(){
-        String ret = "";
-
-        for (int i : arr){
-            ret += i + " ";
-        }
-
-        return ret;
-    }
-
-    public long getInversions(){
-        return this.inversions;
-    }
- 
+        super(arr);
+    } 
 
     public void sort(){
         this.inversions = this.helper(0, arr.length - 1);

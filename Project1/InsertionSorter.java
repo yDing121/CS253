@@ -1,26 +1,6 @@
-public class InsertionSorter {
-    private int[] arr;
-    private long inversions;
-
-    public String toString() {
-        String ret = "";
-
-        for (int i : arr) {
-            ret += i + " ";
-        }
-
-        return ret;
-    }
-
+public class InsertionSorter extends Sorter{
     public InsertionSorter(int[] arr) {
-        // Strong copy of array
-        this.arr = new int[arr.length];
-
-        for (int i = 0; i < arr.length; i++) {
-            this.arr[i] = arr[i];
-        }
-
-        inversions = 0;
+        super(arr);
     }
 
     public long getInversions(){
