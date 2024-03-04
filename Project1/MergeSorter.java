@@ -33,7 +33,7 @@ public class MergeSorter {
         this.inversions = this.helper(0, arr.length - 1);
     }
 
-    public long helper(int left, int right){
+    private long helper(int left, int right){
         long inversions = 0;
 
         if (right > left){
@@ -44,7 +44,7 @@ public class MergeSorter {
         return inversions;
     }
 
-    public long merge(int left, int mid, int right){
+    private long merge(int left, int mid, int right){
         // Regular merge with some minor modifications to count the inversions in 
         // each step, then recursively sum
         int i = left, j = mid, k = 0;

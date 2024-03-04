@@ -57,27 +57,41 @@ class Runner {
         long[] invcounts = new long[6];
 
         // MergeSorter ms = new MergeSorter(new int[] {2,1,3,4});
-        MergeSorter ms = new MergeSorter(arr);
+        // MergeSorter ms = new MergeSorter(arr);
+
         // System.out.println(ms);
         // arr[0] = 0;
         // System.out.println(ms);
-        ms.sort();
+        // ms.sort();
         // System.out.println("\nNumber of inversions:\t" + ms.getInversions() + "\n");
         // System.out.println("\nSorted array:\t" + ms + "\n");
 
         int t = 0;
         for (String fpath : fpaths) {
             arr = getArray(readIntArraylistFromFile(fpath));
-            ms = new MergeSorter(arr);
+            MergeSorter ms = new MergeSorter(arr);
+            InsertionSorter is = new InsertionSorter(arr);
             ms.sort();
-            System.out.println(String.format("Invcount for %s:\t%d", fpath, ms.getInversions()));
+            is.sort();
+            System.out.println(String.format("Invcount (merge) for %s:\t%d", fpath, ms.getInversions()));
+            System.out.println(String.format("Invcount (insertion) for %s:\t%d", fpath, is.getInversions()));
             invcounts[t++] = ms.getInversions();
         }
+        // System.out.println(
+        //     String.format("Naive inversions for f2:\t%d",
+        //     naiveInversions(getArray(readIntArraylistFromFile(fpaths[1]))))
+        //     );
+        
+        // InsertionSorter thing = new InsertionSorter(getArray(readIntArraylistFromFile(fpaths[0])));
+        // thing.sort();
 
+        // MergeSorter thing2 = new MergeSorter(getArray(readIntArraylistFromFile(fpaths[0])));
+        // thing2.sort();
 
-        System.out.println(
-            String.format("Naive inversions for f2:\t%d",
-            naiveInversions(getArray(readIntArraylistFromFile(fpaths[1]))))
-            );
+        // System.out.println("Sorting by insertion for f1:\n" + thing);
+        // System.out.println("Sorting by merge for f1:\n" + thing2);
+
+        // System.out.println("Insertion inversions:\t" + thing.getInversions());
+        // System.out.println("Merge inversions:\t" + thing2.getInversions());
     }
 }

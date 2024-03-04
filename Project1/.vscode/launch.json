@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Runner",
+            "request": "launch",
+            "mainClass": "Runner",
+            "projectName": "Project1_7ed9d1f3"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
