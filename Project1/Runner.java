@@ -68,36 +68,58 @@ class Runner {
 
         int t = 0;
         for (String fpath : fpaths) {
+            if (fpath.equals("dataset_s\\f4.txt")){
+                continue;
+            }
+
             arr = getArray(readIntArraylistFromFile(fpath));
 
-            // Mergesort
-            MergeSorter ms = new MergeSorter(arr);
-            ms.sort();
-            System.out.println(String.format("Invcount (merge) for %s:\t%d", fpath, ms.getInversions()));
+            // // Mergesort
+            // MergeSorter ms = new MergeSorter(arr);
+            // ms.sort();
+            // System.out.println(String.format("Invcount (merge) for %s:\t%d", fpath, ms.getInversions()));
             
             // // Insertion sort
             // InsertionSorter is = new InsertionSorter(arr);
             // is.sort();
             // System.out.println(String.format("Invcount (insertion) for %s:\t%d", fpath, is.getInversions()));
+
+            // // Quicksort
+            // QuickSorter qs = new QuickSorter(arr);
+            // qs.sort();
+            // System.out.println(String.format("Invcount (quick) for %s:\t%d", fpath, qs.getInversions()));
+            // System.out.println(qs);
             
             
-            invcounts[t++] = ms.getInversions();
+            // invcounts[t++] = ms.getInversions();
         }
         // System.out.println(
         //     String.format("Naive inversions for f2:\t%d",
         //     naiveInversions(getArray(readIntArraylistFromFile(fpaths[1]))))
         //     );
 
-        InsertionSorter thing = new InsertionSorter(getArray(readIntArraylistFromFile(fpaths[0])));
-        thing.sort();
-        // System.out.println("Sorting by insertion for f1:\n" + thing);
-        System.out.println("Insertion inversions:\t" + thing.getInversions());
+        // InsertionSorter thing = new InsertionSorter(getArray(readIntArraylistFromFile(fpaths[0])));
+        // thing.sort();
+        // // System.out.println("Sorting by insertion for f1:\n" + thing);
+        // System.out.println("Insertion inversions:\t" + thing.getInversions());
 
         
-        // MergeSorter thing2 = new MergeSorter(getArray(readIntArraylistFromFile(fpaths[0])));
-        // thing2.sort();
+        MergeSorter thing2 = new MergeSorter(getArray(readIntArraylistFromFile(fpaths[0])));
+        thing2.sort();
         // System.out.println("Sorting by merge for f1:\n" + thing2);
-        // System.out.println("Merge inversions:\t" + thing2.getInversions());
+        System.out.println("Merge inversions:\t" + thing2.getInversions());
 
+
+        // int[] bruh = {4,3,5,2,6,1,7};
+        // System.out.println(naiveInversions(bruh));
+        // QuickSorter qs = new QuickSorter(bruh);
+
+        // qs.sort();
+        // System.out.println("Inversions by quicksort:\t" + qs.getInversions());
+
+        QuickSorter qs = new QuickSorter(getArray(readIntArraylistFromFile(fpaths[0])));
+        qs.sort2();
+        System.out.println(qs);
+        System.out.println(qs.getinvs2());
     }
 }
