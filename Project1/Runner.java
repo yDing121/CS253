@@ -110,14 +110,14 @@ class Runner {
         System.out.println("Merge inversions:\t" + thing2.getInversions());
 
 
-        // int[] bruh = {4,3,5,2,6,1,7};
-        // System.out.println(naiveInversions(bruh));
+        int[] bruh = {7,6,2,5,1,4,0,3,8};
+        System.out.println(naiveInversions(bruh));
         // QuickSorter qs = new QuickSorter(bruh);
 
         // qs.sort();
         // System.out.println("Inversions by quicksort:\t" + qs.getInversions());
 
-        QuickSorter qs = new QuickSorter(getArray(readIntArraylistFromFile(fpaths[0])));
+        QuickSorter qs = new QuickSorter(bruh);
         qs.sort2();
         System.out.println(qs);
         System.out.println(qs.getinvs2());

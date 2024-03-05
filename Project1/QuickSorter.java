@@ -22,28 +22,65 @@ public class QuickSorter extends Sorter {
 
     private int partition2(int lo, int hi) {
         int pivot = arr[hi];
-        int i = (lo - 1); // index of smaller element
-        for (int j = lo; j < hi; j++) {
-            // If current element is smaller than or
-            // equal to pivot
-            if (arr[j] < pivot) {
+        int i = lo - 1;
+
+        for (int j=lo; j < hi; j++){
+            if (arr[j] <= pivot){
                 i++;
 
-                // swap arr[i] and arr[j]
+                for (int z=j-1; z>=i; z--){
+                    if (arr[z] > arr[j]){
+                        this.invs++;
+                    }
+                }
+
                 int temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
-                invs += j - i + 1;
+
             }
         }
 
-        // swap arr[i+1] and arr[high] (or pivot)
-        int temp = arr[i + 1];
-        arr[i + 1] = arr[hi];
+        int temp = arr[++i];
+        arr[i] = arr[hi];
         arr[hi] = temp;
-        invs += 1;
 
-        return i + 1;
+        if (!(i == hi)){
+            invs++;
+        }
+
+        return i;
+
+        // int pivot = arr[hi];
+        // int i = (lo - 1); // index of smaller element
+        // for (int j = lo; j < hi; j++) {
+        //     // If current element is smaller than or
+        //     // equal to pivot
+        //     if (arr[j] < pivot) {
+        //         i++;
+
+        //         int tmp = 0;
+
+        //         for (int t = j; t>=i; t--){
+        //             if (arr[t] > arr[j]){
+        //                 invs++;
+        //             }
+        //         }
+
+        //         // swap arr[i] and arr[j]
+        //         int temp = arr[i];
+        //         arr[i] = arr[j];
+        //         arr[j] = temp;           
+        //     }
+        // }
+
+        // // swap arr[i+1] and arr[high] (or pivot)
+        // int temp = arr[i + 1];
+        // arr[i + 1] = arr[hi];
+        // arr[hi] = temp;
+        // invs += 1;
+
+        // return i + 1;
     }
 
     void helper2(int lo, int hi) {
