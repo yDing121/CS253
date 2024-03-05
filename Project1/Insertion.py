@@ -17,3 +17,15 @@ def sort(arr):
         arr[i+1] = key
     end = time.time()
     return tuple([inversions, round(1000*(end-start))])
+
+
+if __name__ == "__main__":
+    with open(f"dataset_s/f{4}.txt", "r") as fin:
+        lines = fin.readlines()
+
+    arr = []
+    for line in lines:
+        arr.append(int(line))
+
+    duration = sort(arr)
+    print(duration)

@@ -10,7 +10,7 @@ def formatData(data, name, fnum):
           f"----------")
 
 
-fout = open("log.log", "w")
+fout = open("log.log", "a+")
 
 for i in range(1, 7):
     print("===="*10)
@@ -32,9 +32,9 @@ for i in range(1, 7):
     print(output)
     fout.write(output + "\n")
 
-    i_data = Insertion.sort(arr.copy())
-    output = formatData(i_data, "Insertion Sort", i)
-    print(output)
-    fout.write(output + "\n")
+    # i_data = Insertion.sort(arr.copy())
+    # output = formatData(i_data, "Insertion Sort", i)
+    # print(output)
+    # fout.write(output + "\n")
 
 fout.close()

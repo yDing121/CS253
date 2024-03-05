@@ -1,0 +1,124 @@
+========================================
+Dataset:	dataset_s/f1.txt
+Inversions with Merge Sort:	2324
+Time with Merge Sort (rounded ms):	1
+----------
+Dataset:	dataset_s/f1.txt
+Inversions with Heap Sort:	2324
+Time with Heap Sort (rounded ms):	0
+----------
+Dataset:	dataset_s/f1.txt
+Inversions with Insertion Sort:	2324
+Time with Insertion Sort (rounded ms):	0
+----------
+========================================
+Dataset:	dataset_s/f2.txt
+Inversions with Merge Sort:	2502835631
+Time with Merge Sort (rounded ms):	366
+----------
+Dataset:	dataset_s/f2.txt
+Inversions with Heap Sort:	2502835631
+Time with Heap Sort (rounded ms):	1115
+----------
+Dataset:	dataset_s/f2.txt
+Inversions with Insertion Sort:	2502835631
+Time with Insertion Sort (rounded ms):	314200
+----------
+========================================
+Dataset:	dataset_s/f3.txt
+Inversions with Merge Sort:	250160253054
+Time with Merge Sort (rounded ms):	4258
+----------
+Dataset:	dataset_s/f3.txt
+Inversions with Heap Sort:	250160253054
+Time with Heap Sort (rounded ms):	91274
+----------
+========================================
+Dataset:	dataset_s/f1.txt
+Inversions with Merge Sort:	2324
+Time with Merge Sort (rounded ms):	0
+----------
+Dataset:	dataset_s/f1.txt
+Inversions with Heap Sort:	2324
+Time with Heap Sort (rounded ms):	0
+----------
+Dataset:	dataset_s/f1.txt
+Inversions with Insertion Sort:	2324
+Time with Insertion Sort (rounded ms):	0
+----------
+========================================
+Dataset:	dataset_s/f2.txt
+Inversions with Merge Sort:	2502835631
+Time with Merge Sort (rounded ms):	341
+----------
+Dataset:	dataset_s/f2.txt
+Inversions with Heap Sort:	2502835631
+Time with Heap Sort (rounded ms):	1172
+----------
+Dataset:	dataset_s/f2.txt
+Inversions with Insertion Sort:	2502835631
+Time with Insertion Sort (rounded ms):	300973
+----------
+========================================
+Dataset:	dataset_s/f3.txt
+Inversions with Merge Sort:	250160253054
+Time with Merge Sort (rounded ms):	4259
+----------
+Dataset:	dataset_s/f3.txt
+Inversions with Heap Sort:	250160253054
+Time with Heap Sort (rounded ms):	91393
+----------
+========================================
+Dataset:	dataset_s/f1.txt
+Inversions with Merge Sort:	2324
+Time with Merge Sort (rounded ms):	0
+----------
+Dataset:	dataset_s/f1.txt
+Inversions with Heap Sort:	2324
+Time with Heap Sort (rounded ms):	0
+----------
+========================================
+Dataset:	dataset_s/f2.txt
+Inversions with Merge Sort:	2502835631
+Time with Merge Sort (rounded ms):	340
+----------
+Dataset:	dataset_s/f2.txt
+Inversions with Heap Sort:	2502835631
+Time with Heap Sort (rounded ms):	1125
+----------
+========================================
+Dataset:	dataset_s/f3.txt
+Inversions with Merge Sort:	250160253054
+Time with Merge Sort (rounded ms):	4626
+----------
+Dataset:	dataset_s/f3.txt
+Inversions with Heap Sort:	250160253054
+Time with Heap Sort (rounded ms):	94773
+----------
+========================================
+Dataset:	dataset_s/f4.txt
+Inversions with Merge Sort:	0
+Time with Merge Sort (rounded ms):	3046
+----------
+Dataset:	dataset_s/f4.txt
+Inversions with Heap Sort:	0
+Time with Heap Sort (rounded ms):	1335
+----------
+========================================
+Dataset:	dataset_s/f5.txt
+Inversions with Merge Sort:	499999500000
+Time with Merge Sort (rounded ms):	3527
+----------
+Dataset:	dataset_s/f5.txt
+Inversions with Heap Sort:	499999500000
+Time with Heap Sort (rounded ms):	181763
+----------
+========================================
+Dataset:	dataset_s/f6.txt
+Inversions with Merge Sort:	249742317055
+Time with Merge Sort (rounded ms):	4188
+----------
+Dataset:	dataset_s/f6.txt
+Inversions with Heap Sort:	249742317055
+Time with Heap Sort (rounded ms):	91833
+----------

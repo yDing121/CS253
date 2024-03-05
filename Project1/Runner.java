@@ -53,7 +53,7 @@ class Runner {
                 "dataset_s\\f6.txt",
         };
 
-        int[] arr = getArray(readIntArraylistFromFile("Project1\\" + fpaths[0]));
+        int[] arr = getArray(readIntArraylistFromFile(fpaths[0]));
         long[] invcounts = new long[6];
 
         // MergeSorter ms = new MergeSorter(new int[] {2,1,3,4});
@@ -72,7 +72,7 @@ class Runner {
             //     continue;
             // }
 
-            arr = getArray(readIntArraylistFromFile("Project1\\" + fpath));
+            arr = getArray(readIntArraylistFromFile(fpath));
 
             // Mergesort
             MergeSorter ms = new MergeSorter(arr);
