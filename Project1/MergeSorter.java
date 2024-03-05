@@ -4,8 +4,14 @@ public class MergeSorter extends Sorter{
         super(arr);
     } 
 
-    public void sort(){
+    public long sort() {
+        long start = System.currentTimeMillis();
         this.inversions = this.helper(0, arr.length - 1);
+        long end = System.currentTimeMillis();
+        // System.out.println(start);
+        // System.out.println(end);
+        
+        return end - start;
     }
 
     private long helper(int left, int right){

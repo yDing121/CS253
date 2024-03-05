@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "QuickSorter2",
+            "request": "launch",
+            "mainClass": "QuickSorter2",
+            "projectName": "Project1_25d95523"
+        },
+        {
+            "type": "java",
+            "name": "HeapSort2",
+            "request": "launch",
+            "mainClass": "HeapSort2",
+            "projectName": "Project1_25d95523"
+        },
+        {
+            "type": "java",
             "name": "Runner",
             "request": "launch",
             "mainClass": "Runner",
