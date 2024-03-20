@@ -1,0 +1,23 @@
+========================================
+Dataset:	dataset_s/f1.txt
+Inversions with Merge Sort:	2324
+Time with Merge Sort (rounded ms):	0
+----------
+Dataset:	dataset_s/f1.txt
+Inversions with Heap Sort:	2324
+Time with Heap Sort (rounded ms):	1
+----------
+========================================
+Dataset:	dataset_s/f2.txt
+Inversions with Merge Sort:	2502835631
+Time with Merge Sort (rounded ms):	860
+----------
+Dataset:	dataset_s/f2.txt
+Inversions with Heap Sort:	2502835631
+Time with Heap Sort (rounded ms):	1665
+----------
+========================================
+Dataset:	dataset_s/f3.txt
+Inversions with Merge Sort:	250160253054
+Time with Merge Sort (rounded ms):	10724
+----------

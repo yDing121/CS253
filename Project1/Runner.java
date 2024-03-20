@@ -75,9 +75,9 @@ class Runner {
             arr = getArray(readIntArraylistFromFile(fpath));
 
             // Mergesort
-            MergeSorter ms = new MergeSorter(arr);
-            long duration = ms.sort();
-            System.out.println(String.format("Invcount (merge) for %s:\t%d\nDuration (ms):\t%d\n-----", fpath, ms.getInversions(), duration));
+            // MergeSorter ms = new MergeSorter(arr);
+            // long duration = ms.sort();
+            // System.out.println(String.format("Invcount (merge) for %s:\t%d\nDuration (ms):\t%d\n-----", fpath, ms.getInversions(), duration));
             // System.out.println(ms);
             // Insertion sort
             // InsertionSorter is = new InsertionSorter(arr);
@@ -94,7 +94,7 @@ class Runner {
             //System.out.println(qs);
             
             
-            invcounts[t++] = ms.getInversions();
+            // invcounts[t++] = ms.getInversions();
         }
         // System.out.println(
         //     String.format("Naive inversions for f2:\t%d",
@@ -106,15 +106,15 @@ class Runner {
         // // System.out.println("Sorting by insertion for f1:\n" + thing);
         // System.out.println("Insertion inversions:\t" + thing.getInversions());
 
-        // int[] firstdata = getArray(readIntArraylistFromFile(fpaths[0]));
+        int[] firstdata = getArray(readIntArraylistFromFile(fpaths[2]));
 
         // int[] farray = {9,1,20,6,4,5,17,9,3,6};
-        // // MergeSorter thing2 = new MergeSorter(firstdata);
         // MergeSorter thing2 = new MergeSorter(firstdata);
-        // long mstime = thing2.sort();
-        // // System.out.println("Sorting by merge for f1:\n" + thing2);
-        // System.out.println("Merge inversions:\t" + thing2.getInversions());
-        // System.out.println(String.format("Mergesort duration:\t%d", mstime));
+        MergeSorter thing2 = new MergeSorter(firstdata);
+        long mstime = thing2.sort();
+        // System.out.println("Sorting by merge for f1:\n" + thing2);
+        System.out.println("Merge inversions:\t" + thing2.getInversions());
+        System.out.println(String.format("Mergesort duration:\t%d", mstime));
 
         // System.out.println("Naive count:\t" + naiveInversions(farray));
 
