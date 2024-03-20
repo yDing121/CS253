@@ -2,9 +2,9 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashSet;
 import java.io.File;
+import java.util.Stack; 
 
 public class Runner {
     final static String FPATH = "cleandata.txt";
@@ -15,10 +15,63 @@ public class Runner {
         for (String k : adjlist.keySet()){
             System.out.println(++i + "\t" + k + adjlist.get(k));
         }
+
+        // topSort(adjlist);
+        // HashSet<String> visited = new HashSet<String>();
+        // ArrayList<String> post = new ArrayList<String>();
+        // dfs("MATH 1591", visited, adjlist, post);
+        ArrayList<String> post = topSort(adjlist);
+        
+        for (i=post.size()-1; i>=0; i--){
+            System.out.println(post.get(i));
+        }
     }
 
-    public static String[] topSort(HashMap alist){
+    public static void dfs(String key, HashSet<String> visited, HashMap<String, ArrayList<String>> alist, ArrayList<String> post){
+        visited.add(key);
+        for (String s: alist.get(key)){
+            if (!visited.contains(s)){
+                dfs(s, visited, alist, post);
+            }
+        }
         
+        post.add(key);
+    }
+
+    public static ArrayList<String> topSort(HashMap<String, ArrayList<String>> alist)
+    {
+        HashSet<String> visited = new HashSet<String>();
+        // Stack<String> stack = new Stack<String>();
+        ArrayList<String> post = new ArrayList<String>();
+
+        while (visited.size() != alist.keySet().size()){
+            // Find first unvisited element
+            String target = null;
+            for (String s: alist.keySet()){
+                if (!visited.contains(s)){
+                    target = s;
+                    break;
+                }
+            }
+
+            dfs(target, visited, alist, post);
+
+
+            // if (stack.empty()){
+            //     // Find first unvisited element
+            //     for (String s: alist.keySet()){
+            //         if (!visited.contains(s)){
+            //             stack.add(s);
+            //             visited.add(s);
+            //             break;
+            //         }
+            //     }
+
+            //     System.out.println(stack);
+            // }
+            // // stack.pop();
+        }
+        return post;
     }
 
     public static HashMap<String, ArrayList<String>> read(String fpath) throws FileNotFoundException {
