@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import javax.management.RuntimeErrorException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,13 +12,13 @@ public class Runner {
     public static void main(String[] args) throws FileNotFoundException {
         HashMap<String, ArrayList<String>> adjlist = read(FPATH);
         HashMap<String, ArrayList<String>> revlist = reverseAdj(adjlist);
-        // int i = 0;
-        // for (String k : adjlist.keySet()){
-        //     System.out.println(++i + "\t" + k + "\t" + adjlist.get(k));
-        // }
+        int i = 0;
+        for (String k : adjlist.keySet()){
+            System.out.println(++i + "\t" + k + "\t" + adjlist.get(k));
+        }
 
         System.out.println("-----Reverse Adjacency List-----");
-        int i = 0;
+        i = 0;
 
         for (String k : revlist.keySet()){
             System.out.println(++i + "\t" + k + "\t" + revlist.get(k));
@@ -47,8 +48,14 @@ public class Runner {
 
     public static void prereqRunner(HashMap<String, ArrayList<String>> revlist){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Please input a course name and number e.g. CSCI 2440");
+        System.out.print("Please input a course name and number e.g. CSCI 2440\t");
         String query = scanner.nextLine().strip();
+        System.out.println();
+
+        if (!revlist.containsKey(query)){
+            scanner.close();
+            throw new RuntimeErrorException(null, "Course requested is not part of catalog");
+        }
 
         for (String s: getPrereqs(query, revlist)){
             System.out.println(s);
