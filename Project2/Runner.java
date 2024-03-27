@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.io.File;
 
 public class Runner {
     final static String FPATH = "cleandata.txt";
+    // static Scanner sc2 = new Scanner(System.in);
 
     public static void main(String[] args) throws FileNotFoundException {
         HashMap<String, ArrayList<String>> adjlist = read(FPATH);
@@ -43,12 +44,20 @@ public class Runner {
         System.out.println("Question 3 -------------------------------");
 
         // ask users how many courses to take per semester
+        
+        // Scanner scanner = new Scanner(System.in);
+        System.out.println("Please enter the number of courses you can take per semester (integers please):\t");
+        
+        int[] testcases = {3,4,5,6};
+        for (int j: testcases){
+            System.out.println(String.format("\n\n-------Limit for concurrent courses taken:\t%s------\n\n", j));
+            ClassSelector(revlist, adjlist, j);
+        }
 
-        ClassSelector(revlist, adjlist);
     }
 
     public static void ClassSelector(HashMap<String, ArrayList<String>> revlist,
-            HashMap<String, ArrayList<String>> adjlist) {
+            HashMap<String, ArrayList<String>> adjlist, int limit) {
 
         // Logic: 1. make a sorted math list according to its prereq (DFS)
         // 2. find the most frequent prereq CS class EX: CSCI 2320
@@ -214,12 +223,12 @@ public class Runner {
         // System.out.println(course);
         // }
 
-        System.out.println("Contents of Flist:");
-        int label = 1;
-        for (String course : Flist) {
+        // System.out.println("Contents of Flist:");
+        // int label = 1;
+        // for (String course : Flist) {
 
-            System.out.println(label++ + " " + course);
-        }
+        //     System.out.println(label++ + " " + course);
+        // }
 
         // ?? somehow wouldnt work?
         // Scanner scanner = new Scanner(System.in);
@@ -228,8 +237,7 @@ public class Runner {
         // int n = scanner.nextInt();
 
         // make decision based on input now
-        displayStudyPlan(Flist, 3);
-
+        displayStudyPlan(Flist, limit);
     }
 
     public static void displayStudyPlan(ArrayList<String> courses, int n) {
@@ -344,7 +352,7 @@ public class Runner {
 
     public static HashMap<String, ArrayList<String>> read(String fpath) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(fpath));
-        HashMap<String, ArrayList<String>> data = new HashMap();
+        HashMap<String, ArrayList<String>> data = new HashMap<String, ArrayList<String>>();
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
@@ -370,6 +378,7 @@ public class Runner {
                 }
             }
         }
+        scanner.close();
         return data;
     }
 }
