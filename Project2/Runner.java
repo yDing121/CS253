@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.io.File;
 
 public class Runner {
@@ -16,44 +15,164 @@ public class Runner {
     public static void main(String[] args) throws FileNotFoundException {
         HashMap<String, ArrayList<String>> adjlist = read(FPATH);
         HashMap<String, ArrayList<String>> revlist = reverseAdj(adjlist);
-        // int i = 0;
-        // for (String k : adjlist.keySet()){
-        // System.out.println(++i + "\t" + k + "\t" + adjlist.get(k));
+        HashMap<String, String> dict = getNames(FPATH);
+
+        // for (String s : dict.keySet()){
+        // System.out.println(dict.get(s));
         // }
 
+        int i;
+        i = 0;
+
+        System.out.println("-----Adjacency List-----");
+        for (String k : adjlist.keySet()) {
+            System.out.println(++i + "\t" + k + "\t" + adjlist.get(k));
+        }
+
         System.out.println("-----Reverse Adjacency List-----");
-        int i = 0;
+        // int i = 0;
+        i = 0;
 
         for (String k : revlist.keySet()) {
             System.out.println(++i + "\t" + k + "\t" + revlist.get(k));
         }
 
-        System.out.println("----------");
+        System.out.println("-----Topological Order-----");
 
         ArrayList<String> post = topSort(adjlist);
 
         for (i = post.size() - 1; i >= 0; i--) {
-            System.out.println(post.get(i));
+            System.out.println(dict.get(post.get(i)));
         }
 
         System.out.println("-----Get Prereqs-----");
+        String[] coursecheck = { "CSCI 4490", "CSCI 4340", "MATH 2330", "CSCI 4310" };
+
+        for (String course : coursecheck) {
+            System.out.println(">>>>>>prereqs for:\t" + course + "<<<<<<<");
+            for (String prereq : getPrereqs(course, revlist)) {
+                System.out.println(prereq);
+            }
+            System.out.println();
+        }
+
         System.out.println(getPrereqs("CSCI 4490", revlist));
         // System.out.println();
-        prereqRunner(revlist);
+        // prereqRunner(revlist);
 
         System.out.println("Question 3 -------------------------------");
 
         // ask users how many courses to take per semester
-        
+
         // Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the number of courses you can take per semester (integers please):\t");
-        
-        int[] testcases = {3,4,5,6};
-        for (int j: testcases){
-            System.out.println(String.format("\n\n-------Limit for concurrent courses taken:\t%s------\n\n", j));
+
+        int[] testcases = { 2, 3, 4 };
+        for (int j : testcases) {
+            System.out.println(String.format("\n\n-------Limit for concurrent courses taken:\t%s------", j));
             ClassSelector(revlist, adjlist, j);
         }
 
+        System.out.println("<<<<<<<<<<<<<<<<<<<<<");
+        BetterClassSelector(revlist, adjlist, 4);
+
+    }
+
+    public static void BetterClassSelector(HashMap<String, ArrayList<String>> revlist,
+            HashMap<String, ArrayList<String>> adjlist, int limit) {
+        HashSet<String> taken = new HashSet<String>();
+        HashMap<String, ArrayList<String>> fullPrereqs = new HashMap<String, ArrayList<String>>();
+        HashSet<String> cur = new HashSet<String>();
+        HashSet<String> topk = new HashSet<String>();
+
+        // Initialize new dictionary to store the full prereqs of each course
+        // We choose revlist because it contains all courses that have prereqs
+        for (String course : revlist.keySet()) {
+            // ArrayList<String> prereqs = getPrereqs(course, revlist);
+            fullPrereqs.put(course, getPrereqs(course, revlist));
+        }
+
+        // Check that the full prereqs of each course is stored
+        for (String course : fullPrereqs.keySet()) {
+            System.out.println(String.format("Full prereqs of :\t%s", course));
+            ArrayList<String> plist = getPrereqs(course, revlist);
+            for (String p : plist) {
+                System.out.println(p);
+            }
+            System.out.println();
+        }
+
+        int sems = 0;
+
+        while (taken.size() < adjlist.size()) {
+            if (sems > 20)
+                break; // Debug stop
+
+            System.out.println(String.format("\n>>>>>>>Semester:%s <<<<<<<<", ++sems));
+            cur.clear();
+
+            // Add first entries to consideration list cur
+            for (String course : fullPrereqs.keySet()) {
+                if (fullPrereqs.get(course).size() <= 0) {
+                    continue;
+                }
+                cur.add(fullPrereqs.get(course).get(0));
+            }
+
+            System.out.println("Considering:\t" + cur);
+
+            if (cur.size() > limit) {
+                // System.out.println("Greater than limit");
+                topk.clear();
+                // Locating the top {limit} courses to take based on the number of times they
+                // appear
+                for (int i = 0; i < limit; i++) {
+                    // System.out.println(cur + " f1");
+                    int max = -1;
+                    String maxcourse = "Error";
+                    for (String s : cur) {
+                        // System.out.println(cur + "bruhs");
+                        if (topk.contains(s)) {
+                            continue;
+                        }
+
+                        int lmax = 0;
+
+                        for (String p : fullPrereqs.keySet()) {
+                            // if (p.equals(s)) lmax++;
+                            if (fullPrereqs.get(p).contains(s))
+                                lmax++;
+                        }
+                        if (lmax >= max) {
+                            maxcourse = s;
+                            max = lmax;
+                        }
+                    }
+                    topk.add(maxcourse);
+                }
+
+                // cur = topk;
+                cur.clear();
+                for (String c : topk) {
+                    cur.add(c);
+                }
+            }
+
+            // Remove the course s from the prereqs and add to taken
+
+            System.out.println("Taking the following:");
+            for (String s : cur) {
+                for (String course : fullPrereqs.keySet()) {
+                    if (fullPrereqs.get(course).size() > 0) {
+                        fullPrereqs.get(course).remove(s);
+                    }
+                }
+                System.out.println(s);
+                taken.add(s);
+            }
+            continue;
+
+        }
     }
 
     public static void ClassSelector(HashMap<String, ArrayList<String>> revlist,
@@ -128,7 +247,6 @@ public class Runner {
         }
 
         for (String s : getPrereqs("MATH 3320", revlist)) {
-
             if (!selected.getOrDefault(s, false)) { // Check if s is not already selected
                 Mlist.add(s);
                 selected.put(s, true);
@@ -227,7 +345,7 @@ public class Runner {
         // int label = 1;
         // for (String course : Flist) {
 
-        //     System.out.println(label++ + " " + course);
+        // System.out.println(label++ + " " + course);
         // }
 
         // ?? somehow wouldnt work?
@@ -348,6 +466,29 @@ public class Runner {
         }
 
         return revlist;
+    }
+
+    public static HashMap<String, String> getNames(String fpath) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new File(fpath));
+        HashMap<String, String> names = new HashMap<String, String>();
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            int pos = line.indexOf("(");
+            String coursename;
+            String course = line.substring(0, 9).strip();
+
+            if (pos < 0) {
+                coursename = line.strip();
+            } else {
+                coursename = line.substring(0, pos).strip();
+            }
+
+            if (!names.containsKey(coursename)) {
+                names.put(course, coursename);
+            }
+        }
+        return names;
     }
 
     public static HashMap<String, ArrayList<String>> read(String fpath) throws FileNotFoundException {
