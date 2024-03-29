@@ -10,13 +10,13 @@ import java.io.File;
 
 public class Runner {
     final static String FPATH = "cleandata.txt";
-    // static Scanner sc2 = new Scanner(System.in);
 
     public static void main(String[] args) throws FileNotFoundException {
         HashMap<String, ArrayList<String>> adjlist = read(FPATH);
         HashMap<String, ArrayList<String>> revlist = reverseAdj(adjlist);
         HashMap<String, String> dict = getNames(FPATH);
 
+        // // Debug
         // for (String s : dict.keySet()){
         // System.out.println(dict.get(s));
         // }
@@ -30,7 +30,6 @@ public class Runner {
         }
 
         System.out.println("-----Reverse Adjacency List-----");
-        // int i = 0;
         i = 0;
 
         for (String k : revlist.keySet()) {
@@ -56,26 +55,22 @@ public class Runner {
             System.out.println();
         }
 
-        System.out.println(getPrereqs("CSCI 4490", revlist));
-        // System.out.println();
-        // prereqRunner(revlist);
-
         System.out.println("Question 3 -------------------------------");
 
-        // ask users how many courses to take per semester
-
-        // Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter the number of courses you can take per semester (integers please):\t");
-
         int[] testcases = { 2, 3, 4 };
+
+        // // Nicky code
+        // for (int j : testcases) {
+        //     System.out.println(String.format("\n\n-------Limit for concurrent courses taken:\t%s------", j));
+        //     ClassSelector(revlist, adjlist, j);
+        // }
+        // System.out.println("<<<<<<<<<<<<<<<<<<<<<");
+
+        // Lance code
         for (int j : testcases) {
             System.out.println(String.format("\n\n-------Limit for concurrent courses taken:\t%s------", j));
-            ClassSelector(revlist, adjlist, j);
+            BetterClassSelector(revlist, adjlist, j);
         }
-
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<");
-        BetterClassSelector(revlist, adjlist, 4);
-
     }
 
     public static void BetterClassSelector(HashMap<String, ArrayList<String>> revlist,
@@ -92,15 +87,15 @@ public class Runner {
             fullPrereqs.put(course, getPrereqs(course, revlist));
         }
 
-        // Check that the full prereqs of each course is stored
-        for (String course : fullPrereqs.keySet()) {
-            System.out.println(String.format("Full prereqs of :\t%s", course));
-            ArrayList<String> plist = getPrereqs(course, revlist);
-            for (String p : plist) {
-                System.out.println(p);
-            }
-            System.out.println();
-        }
+        // // Check that the full prereqs of each course is stored
+        // for (String course : fullPrereqs.keySet()) {
+        //     System.out.println(String.format("Full prereqs of :\t%s", course));
+        //     ArrayList<String> plist = getPrereqs(course, revlist);
+        //     for (String p : plist) {
+        //         System.out.println(p);
+        //     }
+        //     System.out.println();
+        // }
 
         int sems = 0;
 
@@ -122,16 +117,15 @@ public class Runner {
             System.out.println("Considering:\t" + cur);
 
             if (cur.size() > limit) {
-                // System.out.println("Greater than limit");
+                // System.out.println("Greater than limit"); // Debug
                 topk.clear();
-                // Locating the top {limit} courses to take based on the number of times they
-                // appear
+                // Locating the top {limit} courses to take based on the number of times they appear
                 for (int i = 0; i < limit; i++) {
-                    // System.out.println(cur + " f1");
+                    // System.out.println(cur + " f1"); // Debug
                     int max = -1;
                     String maxcourse = "Error";
                     for (String s : cur) {
-                        // System.out.println(cur + "bruhs");
+                        // System.out.println(cur + "bruhs"); // Debug
                         if (topk.contains(s)) {
                             continue;
                         }
@@ -139,7 +133,6 @@ public class Runner {
                         int lmax = 0;
 
                         for (String p : fullPrereqs.keySet()) {
-                            // if (p.equals(s)) lmax++;
                             if (fullPrereqs.get(p).contains(s))
                                 lmax++;
                         }
@@ -151,7 +144,7 @@ public class Runner {
                     topk.add(maxcourse);
                 }
 
-                // cur = topk;
+                // cur = topk; // CANNOT USE THIS CODE BECAUSE THE REFERENCE OF CUR AND TOPK GETS MERGED
                 cur.clear();
                 for (String c : topk) {
                     cur.add(c);
@@ -170,8 +163,6 @@ public class Runner {
                 System.out.println(s);
                 taken.add(s);
             }
-            continue;
-
         }
     }
 
@@ -238,11 +229,10 @@ public class Runner {
         ArrayList<String> Mlist = new ArrayList<>(); // sorted list of Math
         ArrayList<String> Flist = new ArrayList<>(); // Combined list
 
-        // step 1,2,3
+        // step 1,2,3 - refer to top of algorithm
 
         for (String s : getPrereqs(mostFrequentPrerequisite, revlist)) {
             Clist.add(s);
-
             selected.put(s, true);
         }
 
@@ -396,7 +386,6 @@ public class Runner {
         } else {
             System.out.println("Please enter valid number");
         }
-
     }
 
     public static ArrayList<String> getPrereqs(String course, HashMap<String, ArrayList<String>> revlist) {
@@ -408,6 +397,7 @@ public class Runner {
     }
 
     public static void prereqRunner(HashMap<String, ArrayList<String>> revlist) {
+        // Never used in main but was used in development and debugging
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please input a course name and number e.g. CSCI 2440");
         String query = scanner.nextLine().strip();
