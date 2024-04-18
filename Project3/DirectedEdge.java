@@ -1,24 +1,24 @@
 public class DirectedEdge implements Comparable<DirectedEdge>{
     int a;
     int b;
-    float w;
+    double w;
 
-
-    public DirectedEdge(int a, int b, float weight){
+    
+    public DirectedEdge(int a, int b, double weight){
         this.a = a;
         this.b = b;
         this.w = weight;
     }
 
-    public String from(){
-        return "" + this.a;
+    public int from(){
+        return this.a;
     }
 
-    public String to(){
-        return "" + this.b;
+    public int to(){
+        return this.b;
     }
 
-    public float weight(){
+    public double weight(){
         return this.w;
     }
 
