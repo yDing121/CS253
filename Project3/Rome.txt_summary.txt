@@ -1,0 +1,5 @@
+Vertex count:	3353
+Edge count:	8870
+Minimum edge weight:	1.0
+Maximum edge weight:	12711.0
+Negative edge cycle possible:	No

@@ -1,0 +1,5 @@
+Vertex count:	8
+Edge count:	15
+Minimum edge weight:	0.26
+Maximum edge weight:	0.93
+Negative edge cycle possible:	No
