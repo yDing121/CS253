@@ -4,7 +4,7 @@ public class DijkstraShortestPaths {
 
     private int source;
     private DirectedEdge[] edgeTo;
-    private double[] distTo;
+    double[] distTo;
     private IndexMinPQ<Double> pq;
 
     public DijkstraShortestPaths(WeightedDigraph g, int source) {
@@ -99,8 +99,8 @@ public class DijkstraShortestPaths {
     public static void main(String[] args) {
         String[] fpaths = {
                 "./tinyEWD.txt",
-                // "./Rome.txt",
-                // "./10000EWD.txt"
+                "./Rome.txt",
+                "./10000EWD.txt"
         };
 
         for (String fpath : fpaths) {
