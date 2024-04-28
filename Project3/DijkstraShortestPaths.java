@@ -1,4 +1,8 @@
+import java.io.IOException;
 import java.util.Stack;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class DijkstraShortestPaths {
 
@@ -68,7 +72,7 @@ public class DijkstraShortestPaths {
 
         Stopwatch sw_internal = new Stopwatch();
         Stack<DirectedEdge> path = sp.pathTo(t);
-        System.out.println(sw_internal.check() + String.format(" milliseconds for shortest path retrieval between vertex %d and %d", s, t));
+        // System.out.println(sw_internal.check() + String.format(" milliseconds for shortest path retrieval between vertex %d and %d", s, t));
 
         int psize = path.size();
         DirectedEdge[] correctpath = new DirectedEdge[path.size()];
@@ -96,7 +100,7 @@ public class DijkstraShortestPaths {
         return ret;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String[] fpaths = {
                 "./tinyEWD.txt",
                 "./Rome.txt",
@@ -104,6 +108,7 @@ public class DijkstraShortestPaths {
         };
 
         for (String fpath : fpaths) {
+            String sname = fpath.substring(2, fpath.length()-4);
             Stopwatch sw = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
             // Q1 - get shortest paths from vertex 1
@@ -127,21 +132,45 @@ public class DijkstraShortestPaths {
             System.out.println(sw2.check() + " ms for processing Q1 for " + fpath);
             System.out.println("==============================\n");
 
+
             // Q2 - get all shortest pair paths and weights
             sw2.newStart();
+            RollingPrinter printer = new RollingPrinter(500);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(String.format("dijkstra_pairs_%s_output_full.txt", sname)));
+
+
             for (int i = 0; i < g.numVertices(); i++) {
                 System.out.println(String.format("Shortest path from vertex:\t%d --------------", i));
                 sw.newStart();
                 DijkstraShortestPaths c = new DijkstraShortestPaths(g, i);
-                System.out.println(sw.check() + " milliseconds for Disjkstra shortest path calculation");
+                // System.out.println(sw.check() + " milliseconds for Disjkstra shortest path calculation");
 
-                for (int j = 0; j < g.numVertices(); j++) {
-                    System.out.println(makeEdgeString(c, i, j) + "\n");
+                if (fpath.equals("./tinyEWD.txt")){
+                    // System.out.println("FULLLLLL");
+                    // Full output
+                    for (int j = 0; j < g.numVertices(); j++) {
+                        String line = makeEdgeString(c, i, j) + "\n";
+                        // System.out.println(line);
+                        writer.write(line);
+                    }
+                }
+                else{
+                    // First and last 500 lines
+                    for (int j = 0; j < g.numVertices(); j++) {
+                        String line = makeEdgeString(c, i, j);
+                        // System.out.println(line);
+                        printer.addData(j, line);
+                    }
                 }
             }
+            
+            printer.writeData(String.format("dijkstra_pairs_%s_output_last_500.txt", sname));
+
             System.out.println("\n==============================");
             System.out.println(sw2.check() + " ms for processing Q2 for " + fpath);
             System.out.println("==============================\n");
+
+            writer.close();
         }
 
     }
