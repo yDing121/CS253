@@ -1,36 +1,33 @@
 public class DirectedEdge implements Comparable<DirectedEdge>{
-    int a;
-    int b;
-    double w;
 
+    private int from, to;
+    private double weight;
     
-    public DirectedEdge(int a, int b, double weight){
-        this.a = a;
-        this.b = b;
-        this.w = weight;
+    public DirectedEdge(int from, int to, double weight) {
+        this.from = from;
+        this.to = to;
+        this.weight = weight;
     }
-
-    public int from(){
-        return this.a;
+    
+    public int from() {
+        return from;
     }
-
-    public int to(){
-        return this.b;
+    
+    public int to() {
+        return to;
     }
-
-    public double weight(){
-        return this.w;
+    
+    public double weight() {
+        return weight;
     }
-
-    public int compareTo(DirectedEdge e2){
-        if (this.w > e2.weight()){
-            return 1;
-        }
-        else if (this.w < e2.weight()){
-            return -1;
-        }
-        else{
-            return 0;
-        }
+    
+    public int compareTo(DirectedEdge that) {
+        if      (this.weight < that.weight) return -1;
+        else if (this.weight > that.weight) return +1;
+        else                                return  0;
+    }
+    
+    public String toString() {
+        return (String.format("%d--%.2f-->%d",from,weight,to));
     }
 }
