@@ -1,4 +1,6 @@
-import java.io.FileNotFoundException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Stack;
 
 public class BellmanFordSP {
@@ -75,9 +77,8 @@ public class BellmanFordSP {
 
         Stopwatch sw_internal = new Stopwatch();
         Stack<DirectedEdge> path = sp.pathTo(t);
-        System.out.println(sw_internal.check()
-                + String.format(" milliseconds for shortest path retrieval between vertex %d and %d", s, t));
-        
+        // System.out.println(sw_internal.check()
+        //         + String.format(" milliseconds for shortest path retrieval between vertex %d and %d", s, t));
 
         // Invert path trace to get the correct order
         int psize = path.size();
@@ -86,71 +87,126 @@ public class BellmanFordSP {
             correctpath[i] = path.pop();
         }
 
-        // Less than 10 steps - display all edges
+        // // Less than 10 steps - display all edges
+        // if (psize <= 10) {
+        // ret += s;
+        // for (DirectedEdge e : correctpath) {
+        // ret += "->" + e.to();
+        // }
+        // } else {
+        // // More than 10 steps - display first 3 and last 3 edges
+        // int[] pos = { 0, 1, 2, psize - 4, psize - 3, psize - 2 };
+        // ret += String.format("%d->%d->%d->...->%d->%d->%d",
+        // correctpath[pos[0]].to(),
+        // correctpath[pos[1]].to(),
+        // correctpath[pos[2]].to(),
+        // correctpath[pos[3]].to(),
+        // correctpath[pos[4]].to(),
+        // correctpath[pos[5]].to());
+        // // System.out.println("Bruh");
+        // }
+        // return ret;
+
         if (psize <= 10) {
             ret += s;
             for (DirectedEdge e : correctpath) {
                 ret += "->" + e.to();
             }
         } else {
-            // More than 10 steps - display first 3 and last 3 edges
-            int[] pos = { 0, 1, 2, psize - 4, psize - 3, psize - 2 };
+            int[] pos = { 0, 1, 2, psize - 3, psize - 2, psize - 1 };
             ret += String.format("%d->%d->%d->...->%d->%d->%d",
-                    correctpath[pos[0]].to(),
-                    correctpath[pos[1]].to(),
-                    correctpath[pos[2]].to(),
+                    correctpath[pos[0]].from(),
+                    correctpath[pos[1]].from(),
+                    correctpath[pos[2]].from(),
                     correctpath[pos[3]].to(),
                     correctpath[pos[4]].to(),
                     correctpath[pos[5]].to());
-            // System.out.println("Bruh");
+            // System.out.println("nicky is too smart");
         }
         return ret;
     }
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         String[] fpaths = {
                 "./tinyEWD.txt",
                 "./Rome.txt",
                 "./10000EWD.txt"
         };
 
-        
-        int source = 0;
+        int source = 1;
         for (String fpath : fpaths) {
             // Q1 - get shortest paths from vertex 1
+            String sname = fpath.substring(2, fpath.length() - 4);
             Stopwatch sw = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
+
+            BufferedWriter writerq1 = new BufferedWriter(
+                    new FileWriter(String.format("bellman_vertex1_%s_output.txt", sname)));
 
             WeightedDigraph g = new WeightedDigraph(fpath);
             BellmanFordSP sp = new BellmanFordSP(g, source);
 
             for (int v = 0; v < g.numVertices(); v++) {
                 if (sp.hasPathTo(v)) {
-                    System.out.println(makeEdgeString(sp, source, v));
+                    String lineq1 = makeEdgeString(sp, source, v) + "\n";
+                    writerq1.write(lineq1);
                 }
             }
+            writerq1.close();
 
             System.out.println("\n==============================");
             System.out.println(sw2.check() + " ms for processing Q1 for " + fpath);
             System.out.println("==============================\n");
 
-
             // Q2 - get all shortest pair paths and weights
+            
             sw2.newStart();
+            RollingPrinter printer_last500 = new RollingPrinter(500);
+            BufferedWriter writer = new BufferedWriter(
+                    new FileWriter(String.format("bellman_pairs_%s_output_full.txt", sname)));
+            BufferedWriter writer_first500 = new BufferedWriter(
+                    new FileWriter(String.format("bellman_pairs_%s_output_first_500.txt", sname)));
+            
+            
             for (int i = 0; i < g.numVertices(); i++) {
-                System.out.println(String.format("Shortest path from vertex:\t%d --------------", i));
+                System.out.println(String.format("Shortest path from vertex:\t%d--------------", i));
+
                 sw.newStart();
                 BellmanFordSP c = new BellmanFordSP(g, i);
-                System.out.println(sw.check() + " milliseconds for Bellman Ford shortest path calculation");
-    
-                for (int j = 0; j < g.numVertices(); j++) {
-                    System.out.println(makeEdgeString(c, i, j) + "\n");
+                // System.out.println(sw.check() + " milliseconds for Bellman Ford shortest path calculation");
+
+                if (fpath.equals("./tinyEWD.txt")){
+                    // Full output for q2
+                    for (int j = 0; j < g.numVertices(); j++) {
+                        String line = makeEdgeString(c, i, j) + "\n";
+                        writer.write(line);
+                        // System.out.println(makeEdgeString(c, i, j) + "\n");
+                    }
                 }
+                else{
+                    // First and last 500 output for q2
+                    for (int j = 0; j < g.numVertices(); j++) {
+                        String line = makeEdgeString(c, i, j);
+                        printer_last500.addData(i * g.numVertices() + j , line);
+
+                        if (i * g.numVertices() + j < 500) {
+                            writer_first500.write(line + "\n");
+                        }
+                        // System.out.println(makeEdgeString(c, i, j) + "\n");
+                    }
+                }
+
+
             }
+
+            printer_last500.writeData(String.format("bellman_pairs_%s_output_last_500.txt", sname));
 
             System.out.println("\n==============================");
             System.out.println(sw2.check() + " ms for processing Q2 for " + fpath);
             System.out.println("==============================\n");
+
+            writer.close();
+            writer_first500.close();
         }
 
     }

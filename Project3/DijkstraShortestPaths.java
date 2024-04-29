@@ -95,7 +95,7 @@ public class DijkstraShortestPaths {
                     correctpath[pos[3]].to(),
                     correctpath[pos[4]].to(),
                     correctpath[pos[5]].to());
-            // System.out.println("Bruh");
+            // System.out.println("nicky is too smart");
         }
         return ret;
     }
@@ -113,6 +113,8 @@ public class DijkstraShortestPaths {
             Stopwatch sw2 = new Stopwatch();
             // Q1 - get shortest paths from vertex 1
 
+            BufferedWriter writerq1 = new BufferedWriter(
+                    new FileWriter(String.format("dijkstra_vertex1_%s_output.txt", sname)));
             sw.newStart();
             WeightedDigraph g = new WeightedDigraph(fpath);
             System.out.println(g);
@@ -125,8 +127,11 @@ public class DijkstraShortestPaths {
             System.out.println(sw.check() + " milliseconds for Disjkstra shortest path generation");
 
             for (int i = 0; i < g.numVertices(); i++) {
-                System.out.println(makeEdgeString(sp, source, i) + "\n");
+                String lineq1 = makeEdgeString(sp, source, i) + "\n";
+                writerq1.write(lineq1);
             }
+
+            writerq1.close();
 
             System.out.println("\n==============================");
             System.out.println(sw2.check() + " ms for processing Q1 for " + fpath);
@@ -162,7 +167,7 @@ public class DijkstraShortestPaths {
                     for (int j = 0; j < g.numVertices(); j++) {
                         String line = makeEdgeString(c, i, j);
                         // System.out.println(line);
-                        printer_last500.addData(j, line);
+                        printer_last500.addData(i * g.numVertices() + j , line);
 
                         if (i * g.numVertices() + j < 500) {
                             writer_first500.write(line + "\n");
