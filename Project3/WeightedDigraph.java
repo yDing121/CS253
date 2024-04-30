@@ -47,6 +47,8 @@ public class WeightedDigraph {
             DirectedEdge e = new DirectedEdge(from, to, weight);
             this.addEdge(e);
         }
+
+        scanner.close();
     }
 
     private void initializeEmptyDigraph(int numVertices) {
@@ -60,7 +62,7 @@ public class WeightedDigraph {
     public void addEdge(DirectedEdge e) {
         int v = e.from();
         int w = e.to();
-        System.out.println(e);
+        // System.out.println(e);
         adj[v].add(e);
         numDirectedEdges++;
     }

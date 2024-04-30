@@ -111,31 +111,35 @@ public class DijkstraShortestPaths {
             String sname = fpath.substring(2, fpath.length() - 4);
             Stopwatch sw = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
-            // Q1 - get shortest paths from vertex 1
+            DijkstraShortestPaths sp;
+            WeightedDigraph g;
 
-            BufferedWriter writerq1 = new BufferedWriter(
-                    new FileWriter(String.format("dijkstra_vertex1_%s_output.txt", sname)));
-            sw.newStart();
-            WeightedDigraph g = new WeightedDigraph(fpath);
-            System.out.println(g);
-            System.out.println(sw.check() + " milliseconds for weighted digraph construction");
+            // ///////////// Sep  
+            // // Q1 - get shortest paths from vertex 1
 
-            int source = 1;
+            // BufferedWriter writerq1 = new BufferedWriter(
+            //         new FileWriter(String.format("dijkstra_vertex1_%s_output.txt", sname)));
+            // sw.newStart();
+            // g = new WeightedDigraph(fpath);
+            // // System.out.println(g);
+            // // System.out.println(sw.check() + " milliseconds for weighted digraph construction");
 
-            sw.newStart();
-            DijkstraShortestPaths sp = new DijkstraShortestPaths(g, source);
-            System.out.println(sw.check() + " milliseconds for Disjkstra shortest path generation");
+            // int source = 1;
 
-            for (int i = 0; i < g.numVertices(); i++) {
-                String lineq1 = makeEdgeString(sp, source, i) + "\n";
-                writerq1.write(lineq1);
-            }
+            // sw.newStart();
+            // sp = new DijkstraShortestPaths(g, source);
+            // // System.out.println(sw.check() + " milliseconds for Disjkstra shortest path generation");
 
-            writerq1.close();
+            // for (int i = 0; i < g.numVertices(); i++) {
+            //     String lineq1 = makeEdgeString(sp, source, i) + "\n";
+            //     writerq1.write(lineq1);
+            // }
 
-            System.out.println("\n==============================");
-            System.out.println(sw2.check() + " ms for processing Q1 for " + fpath);
-            System.out.println("==============================\n");
+            // writerq1.close();
+
+            // System.out.println("\n==============================");
+            // System.out.println(sw2.check() + " ms for processing Q1 for " + fpath);
+            // System.out.println("==============================\n");
 
             // Q2 - get all shortest pair paths and weights
             sw2.newStart();
@@ -146,10 +150,12 @@ public class DijkstraShortestPaths {
             BufferedWriter writer_first500 = new BufferedWriter(
                     new FileWriter(String.format("dijkstra_pairs_%s_output_first_500.txt", sname)));
 
+
+            g = new WeightedDigraph(fpath);
             for (int i = 0; i < g.numVertices(); i++) {
-                System.out.println(String.format("Shortest path from vertex:\t%d --------------", i));
+                // System.out.println(String.format("Shortest path from vertex:\t%d --------------", i));
                 sw.newStart();
-                DijkstraShortestPaths c = new DijkstraShortestPaths(g, i);
+                sp = new DijkstraShortestPaths(g, i);
                 // System.out.println(sw.check() + " milliseconds for Disjkstra shortest path
                 // calculation");
 
@@ -157,15 +163,14 @@ public class DijkstraShortestPaths {
                     // System.out.println("FULLLLLL");
                     // Full output
                     for (int j = 0; j < g.numVertices(); j++) {
-                        String line = makeEdgeString(c, i, j) + "\n";
+                        String line = makeEdgeString(sp, i, j) + "\n";
                         // System.out.println(line);
                         writer.write(line);
                     }
                 } else {
                     // First and last 500 lines
-
                     for (int j = 0; j < g.numVertices(); j++) {
-                        String line = makeEdgeString(c, i, j);
+                        String line = makeEdgeString(sp, i, j);
                         // System.out.println(line);
                         printer_last500.addData(i * g.numVertices() + j , line);
 

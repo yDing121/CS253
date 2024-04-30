@@ -137,14 +137,17 @@ public class BellmanFordSP {
         for (String fpath : fpaths) {
             // Q1 - get shortest paths from vertex 1
             String sname = fpath.substring(2, fpath.length() - 4);
+            WeightedDigraph g;
+            BellmanFordSP sp;
             Stopwatch sw = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
 
+            //////// Sep
+            g = new WeightedDigraph(fpath);
+            sp = new BellmanFordSP(g, source);
+
             BufferedWriter writerq1 = new BufferedWriter(
                     new FileWriter(String.format("bellman_vertex1_%s_output.txt", sname)));
-
-            WeightedDigraph g = new WeightedDigraph(fpath);
-            BellmanFordSP sp = new BellmanFordSP(g, source);
 
             for (int v = 0; v < g.numVertices(); v++) {
                 if (sp.hasPathTo(v)) {
@@ -161,6 +164,7 @@ public class BellmanFordSP {
             // Q2 - get all shortest pair paths and weights
             
             sw2.newStart();
+            g = new WeightedDigraph(fpath);
             RollingPrinter printer_last500 = new RollingPrinter(500);
             BufferedWriter writer = new BufferedWriter(
                     new FileWriter(String.format("bellman_pairs_%s_output_full.txt", sname)));
@@ -169,16 +173,16 @@ public class BellmanFordSP {
             
             
             for (int i = 0; i < g.numVertices(); i++) {
-                System.out.println(String.format("Shortest path from vertex:\t%d--------------", i));
+                // System.out.println(String.format("Shortest path from vertex:\t%d--------------", i));
 
                 sw.newStart();
-                BellmanFordSP c = new BellmanFordSP(g, i);
+                sp = new BellmanFordSP(g, i);
                 // System.out.println(sw.check() + " milliseconds for Bellman Ford shortest path calculation");
 
                 if (fpath.equals("./tinyEWD.txt")){
                     // Full output for q2
                     for (int j = 0; j < g.numVertices(); j++) {
-                        String line = makeEdgeString(c, i, j) + "\n";
+                        String line = makeEdgeString(sp, i, j) + "\n";
                         writer.write(line);
                         // System.out.println(makeEdgeString(c, i, j) + "\n");
                     }
@@ -186,7 +190,7 @@ public class BellmanFordSP {
                 else{
                     // First and last 500 output for q2
                     for (int j = 0; j < g.numVertices(); j++) {
-                        String line = makeEdgeString(c, i, j);
+                        String line = makeEdgeString(sp, i, j);
                         printer_last500.addData(i * g.numVertices() + j , line);
 
                         if (i * g.numVertices() + j < 500) {
